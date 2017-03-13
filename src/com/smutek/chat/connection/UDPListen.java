@@ -1,7 +1,6 @@
 package com.smutek.chat.connection;
 
 import com.smutek.chat.client.Client;
-
 import java.io.IOException;
 import java.net.*;
 import java.util.List;
@@ -11,7 +10,7 @@ import java.util.List;
  */
 public class UDPListen extends Thread {
     private DatagramSocket socket = null;
-    int serverPort = 12346;
+    private int serverPort = 12346;
     private List<Client> clients;
     private InetAddress address;
     private static int bufferSize = 3000;
@@ -35,8 +34,6 @@ public class UDPListen extends Thread {
                 System.out.println("I've got UDP request");
                 broadcastMessage(receiveBuffer, receivePacket.getPort());
             }
-        } catch (SocketException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -44,7 +41,7 @@ public class UDPListen extends Thread {
         }
     }
 
-    public void broadcastMessage(byte[] receiveBuffer , int senderPort){
+    private void broadcastMessage(byte[] receiveBuffer, int senderPort){
         System.out.println("I am sending UDP message to all clients");
         for (Client client: clients) {
             if (client.getUDPPort() != senderPort) {
