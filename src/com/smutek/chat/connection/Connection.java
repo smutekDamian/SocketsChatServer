@@ -4,19 +4,19 @@ import com.smutek.chat.client.Client;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.List;
+import java.util.concurrent.BlockingQueue;
 
 /**
  * Created by damian on 11.03.17.
  */
 public class Connection extends Thread {
-    private List<Client> clients;
+    private BlockingQueue<Client> clients;
     private Socket clientSocket;
     private BufferedReader in;
     private String nick;
     private int actualClientsQuantity;
 
-    public Connection(List<Client> clients, Socket clientSocket, int actualClientsQuantity){
+    public Connection(BlockingQueue<Client> clients, Socket clientSocket, int actualClientsQuantity){
         this.clients = clients;
         this.clientSocket = clientSocket;
         this.actualClientsQuantity = actualClientsQuantity;

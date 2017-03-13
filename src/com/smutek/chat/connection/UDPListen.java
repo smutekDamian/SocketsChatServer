@@ -3,7 +3,7 @@ package com.smutek.chat.connection;
 import com.smutek.chat.client.Client;
 import java.io.IOException;
 import java.net.*;
-import java.util.List;
+import java.util.concurrent.BlockingQueue;
 
 /**
  * Created by damian on 11.03.17.
@@ -11,11 +11,11 @@ import java.util.List;
 public class UDPListen extends Thread {
     private DatagramSocket socket = null;
     private int serverPort = 12346;
-    private List<Client> clients;
+    private BlockingQueue<Client> clients;
     private InetAddress address;
     private static int bufferSize = 3000;
 
-    public UDPListen(List<Client> clients) {
+    public UDPListen(BlockingQueue<Client> clients) {
         this.clients = clients;
         try {
             this.address = InetAddress.getByName("localhost");
