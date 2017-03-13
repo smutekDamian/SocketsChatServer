@@ -33,7 +33,7 @@ public class UDPListen extends Thread {
                 DatagramPacket receivePacket = new DatagramPacket(receiveBuffer, receiveBuffer.length);
                 socket.receive(receivePacket);
                 System.out.println("I've got UDP request");
-                broadcastMessage(receiveBuffer);
+                broadcastMessage(receiveBuffer, receivePacket.getPort());
             }
         } catch (SocketException e) {
             e.printStackTrace();
@@ -44,14 +44,16 @@ public class UDPListen extends Thread {
         }
     }
 
-    public void broadcastMessage(byte[] receiveBuffer){
+    public void broadcastMessage(byte[] receiveBuffer , int senderPort){
         System.out.println("I am sending UDP message to all clients");
         for (Client client: clients) {
-            DatagramPacket sendPacket = new DatagramPacket(receiveBuffer, receiveBuffer.length, address, client.getUDPPort());
-            try {
-                socket.send(sendPacket);
-            } catch (IOException e) {
-                e.printStackTrace();
+            if (client.getUDPPort() != senderPort) {
+                DatagramPacket sendPacket = new DatagramPacket(receiveBuffer, receiveBuffer.length, address, client.getUDPPort());
+                try {
+                    socket.send(sendPacket);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
