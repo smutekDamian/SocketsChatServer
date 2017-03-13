@@ -14,6 +14,7 @@ public class UDPListen extends Thread {
     int serverPort = 12346;
     private List<Client> clients;
     private InetAddress address;
+    private static int bufferSize = 3000;
 
     public UDPListen(List<Client> clients) {
         this.clients = clients;
@@ -27,7 +28,7 @@ public class UDPListen extends Thread {
     public void run(){
         try {
             socket = new DatagramSocket(serverPort);
-            byte[] receiveBuffer = new byte[3000];
+            byte[] receiveBuffer = new byte[bufferSize];
             while(true){
                 DatagramPacket receivePacket = new DatagramPacket(receiveBuffer, receiveBuffer.length);
                 socket.receive(receivePacket);
