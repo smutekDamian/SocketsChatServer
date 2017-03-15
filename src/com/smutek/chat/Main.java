@@ -20,6 +20,7 @@ public class Main {
         BlockingQueue<Client> clients = new ArrayBlockingQueue<Client>(clientsQuantity);
         int port = 12345;
 	    ServerSocket serverSocket = null;
+	    PrintWriter out = null;
         try {
             serverSocket = new ServerSocket(port);
             UDPListen udpListen = new UDPListen(clients);
@@ -31,9 +32,8 @@ public class Main {
                     actualClientsQuantity++;
                     int UDPPort = port+actualClientsQuantity+1;
                     //send UDP Port to client
-                    PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+                    out = new PrintWriter(clientSocket.getOutputStream(), true);
                     out.println(UDPPort);
-                    //out.close();
                     clients.put(new Client(clientSocket, UDPPort));
                     Connection connection = new Connection(clients,clientSocket, actualClientsQuantity);
                     connection.start();
@@ -45,6 +45,8 @@ public class Main {
             e.printStackTrace();
         } finally {
             if (serverSocket != null) serverSocket.close();
+            assert out != null;
+            out.close();
         }
     }
 }

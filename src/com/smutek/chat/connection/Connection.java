@@ -81,6 +81,6 @@ public class Connection extends Thread {
         if (temporaryClient != null) {
             clients.remove(temporaryClient);
         }
-        actualClientsQuantity--;
+        actualClientsQuantity = clients.size();
     }
 }
